@@ -233,6 +233,7 @@ def plot_ising(folder,
                fit_tfs = False,
                vmin = 150,
                vmax = 500,
+               num_cores = 8,
                inter_t=1, # Plot single seq 
                nwin=10, # Free energy calc
                lim_=5, # Plot single seq
@@ -298,6 +299,7 @@ def plot_ising(folder,
                      cmap_ = 'viridis',
                      vmin = vmin,
                      vmax = vmax,
+                     num_cores = num_cores,
                      prot_name = prot_name,
                      t_ = t_,
                      plot_ff_protein = True,
