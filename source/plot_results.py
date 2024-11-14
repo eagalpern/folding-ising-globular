@@ -230,6 +230,7 @@ def plot_ising(folder,
                ax_domains_and_fe,
                main_path = '/home/ezequiel/Deposit/ising_rbm/',
                prot_name = 'reference_seq',
+               num_cores = 8,
                fit_tfs = False,
                vmin = 150,
                vmax = 500,
@@ -259,7 +260,6 @@ def plot_ising(folder,
 
     ul=np.loadtxt(ulf_file,int)
 
-    num_cores=8
     ff=np.loadtxt(ff_file+'_0')   
     ffs=np.zeros((len(ff),num_cores))
     for fi in range(num_cores):
