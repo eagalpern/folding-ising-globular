@@ -234,7 +234,6 @@ def plot_ising(folder,
                fit_tfs = False,
                vmin = 150,
                vmax = 500,
-               num_cores = 8,
                inter_t=1, # Plot single seq 
                nwin=10, # Free energy calc
                lim_=5, # Plot single seq
