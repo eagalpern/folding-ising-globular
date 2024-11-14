@@ -32,6 +32,7 @@ def cm2inch(*tupl):
 def load_and_plot_ff(ax_ff,
                      folder,
                      cmap_ = 'viridis',
+                     num_cores = 8,
                      vmin = 250,
                      vmax = 450,
                      prot_name = 'reference_seq',
@@ -46,8 +47,7 @@ def load_and_plot_ff(ax_ff,
     states_file=out_dir_+'st'
     q_hist_file=out_dir_+'q_hist'
 
-    num_cores=8
-    #N=num_cores
+   #N=num_cores
 
 
     ff=np.loadtxt(ff_file+'_0')   
