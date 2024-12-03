@@ -48,7 +48,13 @@ def load_simple_fasta(fasta_file):
             names.append(fasta_sequences[j].id)
         return  MSA, names
     
-
+    
+def freq(ali,npos,Naa,w):
+    fi=np.zeros((npos,Naa))
+    for i in range(npos):
+        fi[i,:]=np.histogram(ali[:,i],bins=np.arange(-0.5,Naa+0.5),weights=w)[0]
+    fi=fi/sum(w)
+    return fi
 
 # def str_to_save(x):
 #     xstr=''

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import numba
-from numba import njit
+from numba import njit, jit, prange
 
 
 @njit(inline="always")
@@ -16,6 +16,47 @@ def energy_eval(h_i: numba.types.Array(np.float64,ndim=2,layout='F'),
         for j in range(i + 1, L):
             E[i,j] = J_ij[i, j, A[i], A[j]]
     return -E
+
+@jit(nopython=True)
+def hj_tot(A,Hi,Jij):
+    hi_sum = 0.0
+    Jij_sum = 0.0
+    L=len(A)
+    for i in range(L):
+        hi_sum += Hi[i, A[i]]
+        for j in range(i + 1, L):
+            Jij_sum += Jij[i, j, A[i], A[j]]
+    return Jij_sum, hi_sum
+
+
+@jit(nopython=True, parallel=True)
+def compute_weighted_averages(A, Hi, Jij, weights):
+    n_sequences = A.shape[0]
+    L = A.shape[1]
+    J_weighted_sum = 0.0
+    h_weighted_sum = 0.0
+    weight_sum = 0.0  # To normalize weights
+    
+    for k in prange(n_sequences):
+        hi_sum = 0.0
+        Jij_sum = 0.0
+        seq = A[k]
+        weight = weights[k]
+        
+        for i in range(L):
+            hi_sum += Hi[i, seq[i]]
+            for j in range(i + 1, L):
+                Jij_sum += Jij[i, j, seq[i], seq[j]]
+        
+        J_weighted_sum += Jij_sum * weight
+        h_weighted_sum += hi_sum * weight
+        weight_sum += weight
+    
+    # Normalize weighted sums to compute averages
+    J_average = J_weighted_sum / weight_sum
+    h_average = h_weighted_sum / weight_sum
+    
+    return J_average, h_average
 
 
 # REDUCE EVALUATED ENERGY MATRIX ACCORDING TO CUSTOM BREAKS
@@ -89,3 +130,4 @@ def si0_to_DS_units_len_DCA(si0,seq,breaks,gaps_out):
             units_len[values]=units_len[values]-counts   
     DS=energy_submatrix(DS_all,breaks=breaks) 
     return DS,units_len
+
