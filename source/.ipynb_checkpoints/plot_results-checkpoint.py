@@ -145,11 +145,13 @@ def apparent_domains_2(ax_,t_,ul,
 
     ax.set_ylabel('element')
     ax.set_xlabel('element')
+    
     col_positions = np.append(0,np.cumsum(ul))# - 0.5
     
-    #
-    ax.set_yticks(ticks=col_positions[:-1]+ul/2)
-    ax.set_xticks(ticks=col_positions[:-1]+ul/2)
+    col_positions_real = (col_positions[:-1]+ul/2)
+    col_positions_real = col_positions_real[::ftick]
+    ax.set_yticks(ticks=col_positions_real)
+    ax.set_xticks(ticks=col_positions_real)
     ax.set_xticklabels(np.arange(1,len(t_)+1,ftick),rotation=0)
     ax.set_yticklabels(np.arange(1,len(t_)+1,ftick),rotation=0)
 
@@ -240,6 +242,8 @@ def plot_ising(folder,
                lw=.6, # line width domains 
                lw_fq = 1.5, # line width df
                alpha_fq= 1, # alpha df
+               all_ticks = True, # in df plot
+               ftick=1, #freq of ticks in domain plot
                fontsize = 10,
                noninf = False,
                t0 = 0):
@@ -310,7 +314,7 @@ def plot_ising(folder,
     colors=domains_and_fe_2(ax_domains_and_fe,out_dir_,t_,
                             inter_t=inter_t,DT=DT_,cbar_ax=True,
                             nwin=nwin,lim=lim_,ul=ul,lw=lw,lw_fq = lw_fq, alpha_fq=alpha_fq, ls=fontsize,
-                            noninf = noninf, t0 = t0)
+                            noninf = noninf, t0 = t0, all_ticks = all_ticks,ftick=ftick)
     
 
 
