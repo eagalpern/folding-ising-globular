@@ -94,9 +94,10 @@ def view_3d_exon_hist(ali_seq,colors,pdb_filename):
     
 
     view = py3Dmol.view(js='https://3dmol.org/build/3Dmol.js')
-    view.addModel(open(pdb_filename,'r').read(),'pdb')
     
     view.clear()
+    view.addModel(open(pdb_filename,'r').read(),'pdb')
+    
     #else:
     #view = py3Dmol.view(query='pdb:'+pdb,width=800, height=600)
 
