@@ -63,6 +63,42 @@ def freq(ali,npos,Naa,w):
 #     return xstr
     
     
+def create_aa_dict(AA_):
+    """
+    Creates a dictionary mapping amino acid symbols to their corresponding values based on the order in AA_.
+    Handles special cases for 'Z', 'X', and 'B'.
+    If '-' is not present in AA_, it defaults to the value of 'A'.
+
+    Args:
+        AA_ (str): A string of amino acid symbols.
+
+    Returns:
+        dict: A dictionary mapping amino acid symbols to their values.
+    """
+    # Create the base dictionary
+    AAdict = {aa: idx for idx, aa in enumerate(AA_)}
+
+    # Handle special cases
+    # 'Z' should have the value of 'E' (glutamic acid)
+    if 'E' in AAdict:
+        AAdict['Z'] = AAdict['E']
+    else:
+        AAdict['Z'] = AAdict.get('A', 0)  # Fallback to 'A' if 'E' is not present
+
+    # 'X' should have the value of '-' (gap)
+    if '-' in AAdict:
+        AAdict['X'] = AAdict['-']
+    else:
+        AAdict['X'] = AAdict.get('A', 0)  # Fallback to 'A' if '-' is not present
+
+    # 'B' should have the value of 'D' (aspartic acid)
+    if 'D' in AAdict:
+        AAdict['B'] = AAdict['D']
+    else:
+        AAdict['B'] = AAdict.get('A', 0)  # Fallback to 'A' if 'D' is not present
+
+    return AAdict
+
 
 
 
